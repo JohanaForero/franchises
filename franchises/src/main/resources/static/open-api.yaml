@@ -21,7 +21,7 @@ paths:
               $ref: '#/components/schemas/FranchiseRequest'
       responses:
         200:
-          description: The vehicle has entered successfully
+          description: The franchise has been successfully created
           content:
             application/json:
               schema:
@@ -32,19 +32,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorObject'
-
 components:
   schemas:
     # Properties
-
-    total:
-      type: integer
-      description: Total of items.
-    code:
-      type: integer
-      format: int64
-      description: code of parking lot
-      example: 123
     name:
       type: string
       description: Name of the franchises
@@ -54,7 +44,6 @@ components:
       format: int64
       description: Unique franchise identifier
       example: 123
-
     # Objects
     ErrorObject:
       type: object
