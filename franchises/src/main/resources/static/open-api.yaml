@@ -1,0 +1,90 @@
+openapi: 3.0.2
+info:
+  title: API Documentation
+  version: 1.0.0
+tags:
+  - name: Franchises
+    description: Endpoints for create Franchises
+paths:
+  /franchises:
+    post:
+      tags:
+        - Franchises
+      summary: Register a Franchise
+      description: Register a Franchise
+      operationId: createFranchise
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FranchiseRequest'
+      responses:
+        200:
+          description: The vehicle has entered successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FranchiseResponse'
+        400:
+          description: Bad Request - If the resource is misspelled (badly constructed URI) If the data in the request is not correct.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorObject'
+
+components:
+  schemas:
+    # Properties
+
+    total:
+      type: integer
+      description: Total of items.
+    code:
+      type: integer
+      format: int64
+      description: code of parking lot
+      example: 123
+    name:
+      type: string
+      description: Name of the franchises
+      example: McDonald's
+    id:
+      type: integer
+      format: int64
+      description: Unique franchise identifier
+      example: 123
+
+    # Objects
+    ErrorObject:
+      type: object
+      additionalProperties: false
+      properties:
+        message:
+          type: string
+          description: Error message (detailed description)
+          example: Invalid Request. Please, check the data in the request (QueryString Parameters and/or Body).
+      description: Error details
+      example:
+        message: Invalid Request. Please, check the data in the request (QueryString Parameters and/or Body).
+    FranchiseRequest:
+      required:
+        - name
+      type: object
+      description: Data required to create a franchise
+      additionalProperties: false
+      properties:
+        name:
+          $ref: '#/components/schemas/name'
+    FranchiseResponse:
+      required:
+        - name
+        - idFranchise
+      type: object
+      description: Data required to create a franchise
+      additionalProperties: false
+      properties:
+        name:
+          $ref: '#/components/schemas/name'
+        idFranchise:
+          $ref: '#/components/schemas/id'
