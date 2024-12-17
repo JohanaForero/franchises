@@ -8,7 +8,6 @@ import reactor.core.publisher.Mono;
 public record BranchValidator(BranchPort branchPort, DbPort dbPort) {
     public Mono<Boolean> doesBranchExist(final String nameBranch) {
         return branchPort.existsByName(nameBranch)
-                .map(existingBranch -> true)
                 .defaultIfEmpty(false);
     }
 

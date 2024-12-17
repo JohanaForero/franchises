@@ -10,7 +10,7 @@ public record BranchService(BranchValidator branchValidator, DbPort dbPort, Bran
     public Mono<Branch> createBranch(final Integer idFranchise, final String nameBranch) {
         return branchValidator.doesBranchExist(nameBranch)
                 .flatMap(exists -> {
-                    if (exists) {
+                    if (Boolean.TRUE.equals(exists)) {
                         return Mono.error(new RuntimeException("Ya existe una sucursal con ese nombre"));
                     } else {
                         return branchValidator.getFranchise(idFranchise)

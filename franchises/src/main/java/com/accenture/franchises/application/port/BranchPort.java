@@ -7,5 +7,4 @@ public interface BranchPort {
     Mono<Boolean> existsByName(String nameBranch);
 
     Mono<Branch> saveBranch(Branch branch);
-
 }
