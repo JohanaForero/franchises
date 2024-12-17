@@ -9,6 +9,7 @@ import com.accenture.franchises.openapi.model.BranchRequestDto;
 import com.accenture.franchises.openapi.model.BranchResponseDto;
 import com.accenture.franchises.openapi.model.FranchiseRequestDto;
 import com.accenture.franchises.openapi.model.FranchiseResponseDto;
+import com.accenture.franchises.openapi.model.ProductRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -39,6 +40,11 @@ public class FranchiseController implements FranchisesApi {
                 .flatMap(requestDto -> franchiseService.createFranchise(requestDto.getName())
                         .map(franchiseMapper::toDto)
                         .map(responseDto -> ResponseEntity.status(HttpStatus.CREATED).body(responseDto)));
+    }
+
+    @Override
+    public Mono<ResponseEntity<ProductRequestDto>> createProduct(String nameBranch, Mono<ProductRequestDto> productRequestDto, ServerWebExchange exchange) {
+        return FranchisesApi.super.createProduct(nameBranch, productRequestDto, exchange);
     }
 }
 
