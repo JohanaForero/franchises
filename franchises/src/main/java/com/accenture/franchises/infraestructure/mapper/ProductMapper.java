@@ -16,6 +16,5 @@ public interface ProductMapper {
 
     Product toModel(ProductEntity productEntity);
 
-    @Mapping(target = "branch", ignore = true)
     ProductRequestDto toDto(Product product);
 }

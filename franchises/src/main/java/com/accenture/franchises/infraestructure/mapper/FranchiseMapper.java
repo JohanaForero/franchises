@@ -11,7 +11,6 @@ import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface FranchiseMapper {
-    @Mapping(target = "branch", ignore = true)
     Franchise toModel(FranchiseRequestDto franchiseRequestDto);
 
     @Mapping(target = "idFranchise", source = "id")

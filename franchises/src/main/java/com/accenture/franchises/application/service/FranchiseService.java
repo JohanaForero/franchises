@@ -11,7 +11,7 @@ public record FranchiseService(DbPort dbPort, FranchiseValidator franchiseValida
         return franchiseValidator.validateUniqueName(nameFranchise)
                 .then(Mono.defer(() -> generateNewId()
                         .flatMap(newId -> {
-                            final Franchise newFranchise = new Franchise(newId, nameFranchise, null);
+                            final Franchise newFranchise = new Franchise(newId, nameFranchise);
                             return dbPort.saveFranchise(newFranchise);
                         })));
     }
