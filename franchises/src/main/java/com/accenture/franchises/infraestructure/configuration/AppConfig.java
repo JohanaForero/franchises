@@ -4,8 +4,10 @@ import com.accenture.franchises.application.port.BranchPort;
 import com.accenture.franchises.application.port.DbPort;
 import com.accenture.franchises.application.service.BranchService;
 import com.accenture.franchises.application.service.FranchiseService;
+import com.accenture.franchises.application.service.ProductService;
 import com.accenture.franchises.application.validator.BranchValidator;
 import com.accenture.franchises.application.validator.FranchiseValidator;
+import com.accenture.franchises.application.validator.ProductValidator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -31,4 +33,15 @@ public class AppConfig {
     public BranchValidator branchValidator(BranchPort branchPort, DbPort dbPort) {
         return new BranchValidator(branchPort, dbPort);
     }
+
+    @Bean
+    public ProductService productService(ProductValidator productValidator, DbPort dbPort, BranchPort branchPort) {
+        return new ProductService(productValidator, dbPort, branchPort);
+    }
+
+    @Bean
+    public ProductValidator productValidator(BranchPort branchPort) {
+        return new ProductValidator(branchPort);
+    }
+
 }

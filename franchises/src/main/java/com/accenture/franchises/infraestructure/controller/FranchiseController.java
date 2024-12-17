@@ -2,8 +2,10 @@ package com.accenture.franchises.infraestructure.controller;
 
 import com.accenture.franchises.application.service.BranchService;
 import com.accenture.franchises.application.service.FranchiseService;
+import com.accenture.franchises.application.service.ProductService;
 import com.accenture.franchises.infraestructure.mapper.BranchMapper;
 import com.accenture.franchises.infraestructure.mapper.FranchiseMapper;
+import com.accenture.franchises.infraestructure.mapper.ProductMapper;
 import com.accenture.franchises.openapi.api.FranchisesApi;
 import com.accenture.franchises.openapi.model.BranchRequestDto;
 import com.accenture.franchises.openapi.model.BranchResponseDto;
@@ -22,6 +24,8 @@ import reactor.core.publisher.Mono;
 public class FranchiseController implements FranchisesApi {
     private final FranchiseService franchiseService;
     private final BranchService branchService;
+    private final ProductService productService;
+    private final ProductMapper productMapper;
     private final BranchMapper branchMapper;
     private final FranchiseMapper franchiseMapper;
 
@@ -43,8 +47,13 @@ public class FranchiseController implements FranchisesApi {
     }
 
     @Override
-    public Mono<ResponseEntity<ProductRequestDto>> createProduct(String nameBranch, Mono<ProductRequestDto> productRequestDto, ServerWebExchange exchange) {
-        return FranchisesApi.super.createProduct(nameBranch, productRequestDto, exchange);
+    public Mono<ResponseEntity<ProductRequestDto>> createProduct(String nameBranch,
+                                                                 Mono<ProductRequestDto> productRequestDto,
+                                                                 ServerWebExchange exchange) {
+        return productRequestDto
+                .flatMap(requestDto -> productService.createProduct(nameBranch, this.productMapper.toModel(requestDto)))
+                .map(productMapper::toDto)
+                .map(responseDto -> ResponseEntity.status(HttpStatus.CREATED).body(responseDto));
     }
 }
 
