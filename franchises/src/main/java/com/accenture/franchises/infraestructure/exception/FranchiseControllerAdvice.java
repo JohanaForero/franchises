@@ -17,6 +17,7 @@ import java.util.Map;
 public class FranchiseControllerAdvice {
     private static final Map<Class<? extends RuntimeException>, HttpStatus> HTTP_STATUS_BY_CODE_EXCEPTION = Map.ofEntries(
             new AbstractMap.SimpleEntry<>(FranchiseException.FranchiseAlreadyExistsException.class, HttpStatus.BAD_REQUEST),
+            new AbstractMap.SimpleEntry<>(FranchiseException.BranchServiceException.class, HttpStatus.BAD_REQUEST),
             new AbstractMap.SimpleEntry<>(FranchiseException.ServerExceptionDB.class, HttpStatus.BAD_REQUEST));
 
     @ExceptionHandler(FranchiseException.class)

@@ -29,4 +29,14 @@ public class FranchiseException extends RuntimeException{
         }
 
     }
+
+    public static class BranchServiceException extends FranchiseException {
+        @Serial
+        private static final long serialVersionUID = -8630630071543047818L;
+
+        public BranchServiceException(final String message){
+            super(message);
+        }
+
+    }
 }
