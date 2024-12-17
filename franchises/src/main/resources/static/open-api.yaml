@@ -67,6 +67,40 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorObject'
+  /franchises/{nameBranch}/product:
+    post:
+      tags:
+        - Franchises
+      summary: Register a product
+      description: Register a product
+      operationId: createProduct
+      parameters:
+        - name: nameBranch
+          in: path
+          required: true
+          description: The name Branch associated with the branch
+          schema:
+            type: string
+            example: "cucuta"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductRequest'
+      responses:
+        200:
+          description: The product has been successfully created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductRequest'
+        400:
+          description: Bad Request - If the resource is misspelled (badly constructed URI) If the data in the request is not correct.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorObject'
 components:
   schemas:
     # Properties
@@ -100,6 +134,20 @@ components:
       properties:
         name:
           $ref: '#/components/schemas/name'
+    ProductRequest:
+      required:
+        - name
+        - total
+      type: object
+      description: Data required to create product
+      properties:
+        name:
+          $ref: '#/components/schemas/name'
+        total:
+          type: integer
+          description: total of existing products
+          format: int32
+          example: 300
     FranchiseResponse:
       required:
         - name

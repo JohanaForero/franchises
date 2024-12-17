@@ -2,13 +2,16 @@ package com.accenture.franchises.infraestructure.controller;
 
 import com.accenture.franchises.application.service.BranchService;
 import com.accenture.franchises.application.service.FranchiseService;
+import com.accenture.franchises.application.service.ProductService;
 import com.accenture.franchises.infraestructure.mapper.BranchMapper;
 import com.accenture.franchises.infraestructure.mapper.FranchiseMapper;
+import com.accenture.franchises.infraestructure.mapper.ProductMapper;
 import com.accenture.franchises.openapi.api.FranchisesApi;
 import com.accenture.franchises.openapi.model.BranchRequestDto;
 import com.accenture.franchises.openapi.model.BranchResponseDto;
 import com.accenture.franchises.openapi.model.FranchiseRequestDto;
 import com.accenture.franchises.openapi.model.FranchiseResponseDto;
+import com.accenture.franchises.openapi.model.ProductRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +24,8 @@ import reactor.core.publisher.Mono;
 public class FranchiseController implements FranchisesApi {
     private final FranchiseService franchiseService;
     private final BranchService branchService;
+    private final ProductService productService;
+    private final ProductMapper productMapper;
     private final BranchMapper branchMapper;
     private final FranchiseMapper franchiseMapper;
 
@@ -39,6 +44,16 @@ public class FranchiseController implements FranchisesApi {
                 .flatMap(requestDto -> franchiseService.createFranchise(requestDto.getName())
                         .map(franchiseMapper::toDto)
                         .map(responseDto -> ResponseEntity.status(HttpStatus.CREATED).body(responseDto)));
+    }
+
+    @Override
+    public Mono<ResponseEntity<ProductRequestDto>> createProduct(String nameBranch,
+                                                                 Mono<ProductRequestDto> productRequestDto,
+                                                                 ServerWebExchange exchange) {
+        return productRequestDto
+                .flatMap(requestDto -> productService.createProduct(nameBranch, this.productMapper.toModel(requestDto)))
+                .map(productMapper::toDto)
+                .map(responseDto -> ResponseEntity.status(HttpStatus.CREATED).body(responseDto));
     }
 }
 
