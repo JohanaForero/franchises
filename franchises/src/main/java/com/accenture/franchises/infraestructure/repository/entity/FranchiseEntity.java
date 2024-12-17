@@ -14,5 +14,4 @@ public class FranchiseEntity {
     @Id
     private Long id;
     private String name;
-    private BranchEntity branch;
 }

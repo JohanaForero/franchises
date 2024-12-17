@@ -32,6 +32,41 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorObject'
+  /franchises/{idFranchise}/branch:
+    post:
+      tags:
+        - Franchises
+      summary: Register a branch
+      description: Register a branch
+      operationId: createBranch
+      parameters:
+        - name: idFranchise
+          in: path
+          required: true
+          description: The franchise id associated with the branch
+          schema:
+            type: integer
+            description: id the franchise
+            example: 123
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BranchRequest'
+      responses:
+        200:
+          description: The branch has been successfully created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BranchResponse'
+        400:
+          description: Bad Request - If the resource is misspelled (badly constructed URI) If the data in the request is not correct.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorObject'
 components:
   schemas:
     # Properties
@@ -77,3 +112,15 @@ components:
           $ref: '#/components/schemas/name'
         idFranchise:
           $ref: '#/components/schemas/id'
+    BranchRequest:
+      type: object
+      description: Represents a branch associated with the franchise
+      properties:
+        name:
+          $ref: '#/components/schemas/name'
+    BranchResponse:
+      type: object
+      description: Represents a branch associated with the franchise
+      properties:
+        name:
+          $ref: '#/components/schemas/name'

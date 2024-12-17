@@ -34,4 +34,11 @@ public class MongoDBFranchiseServiceImpl implements DbPort {
                 .flatMap(saveEntity -> Mono.just(this.franchiseMapper.toDomain(saveEntity)))
                 .switchIfEmpty(Mono.error(new FranchiseException.ServerExceptionDB("FR-DB-001")));
     }
+
+    @Override
+    public Mono<Franchise> findByFranchiseId(Long franchiseId) {
+        return persistenceRepository.findById(franchiseId)
+                .switchIfEmpty(Mono.error(new RuntimeException("Franquicia no encontrada")))
+                .map(franchiseMapper::toDomain);
+    }
 }

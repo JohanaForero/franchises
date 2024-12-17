@@ -10,4 +10,6 @@ public interface PersistenceRepository extends ReactiveMongoRepository<Franchise
     Mono<Boolean> existsByName(String name);
 
     Mono<FranchiseEntity> findTopByOrderByIdDesc();
+
+    Mono<FranchiseEntity> findById(Long franchiseId);
 }
