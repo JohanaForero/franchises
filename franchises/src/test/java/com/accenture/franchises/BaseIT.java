@@ -22,6 +22,7 @@ public abstract class BaseIT {
     @BeforeEach
     void setup() {
         reactiveMongoTemplate.dropCollection("franchises").block();
+        reactiveMongoTemplate.dropCollection("branch").block();
     }
 
 }
