@@ -101,6 +101,34 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorObject'
+  /franchises/{nameProduct}/product:
+    delete:
+      tags:
+        - Franchises
+      summary: Delete a product
+      description: Delete a product
+      operationId: deleteProduct
+      parameters:
+        - name: nameProduct
+          in: path
+          required: true
+          description: The name Product
+          schema:
+            type: string
+            example: "colgate"
+      responses:
+        200:
+          description: Product deleted successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductResponse'
+        400:
+          description: Bad Request - If the resource is misspelled (badly constructed URI) If the data in the request is not correct.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorObject'
 components:
   schemas:
     # Properties
@@ -166,6 +194,13 @@ components:
       properties:
         name:
           $ref: '#/components/schemas/name'
+    ProductResponse:
+      type: object
+      description: Response when a product is deleted successfully
+      properties:
+        message:
+          type: string
+          example: "Product successfully removed"
     BranchResponse:
       type: object
       description: Represents a branch associated with the franchise
