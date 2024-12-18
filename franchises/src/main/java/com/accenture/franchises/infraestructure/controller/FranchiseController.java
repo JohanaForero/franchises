@@ -12,6 +12,7 @@ import com.accenture.franchises.openapi.model.BranchResponseDto;
 import com.accenture.franchises.openapi.model.FranchiseRequestDto;
 import com.accenture.franchises.openapi.model.FranchiseResponseDto;
 import com.accenture.franchises.openapi.model.ProductRequestDto;
+import com.accenture.franchises.openapi.model.ProductResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -54,6 +55,15 @@ public class FranchiseController implements FranchisesApi {
                 .flatMap(requestDto -> productService.createProduct(nameBranch, this.productMapper.toModel(requestDto)))
                 .map(productMapper::toDto)
                 .map(responseDto -> ResponseEntity.status(HttpStatus.CREATED).body(responseDto));
+    }
+
+    @Override
+    public Mono<ResponseEntity<ProductResponseDto>> deleteProduct(String nameProduct, ServerWebExchange exchange) {
+        return productService.deleteProductByName(nameProduct)
+                .map(message -> {
+                    ProductResponseDto responseDto = productMapper.toResponse(message);
+                    return ResponseEntity.ok(responseDto);
+                });
     }
 }
 

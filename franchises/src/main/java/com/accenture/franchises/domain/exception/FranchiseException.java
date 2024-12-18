@@ -39,4 +39,14 @@ public class FranchiseException extends RuntimeException{
         }
 
     }
+
+    public static class ProductNotFoundException extends FranchiseException {
+        @Serial
+        private static final long serialVersionUID = 3978370933682047820L;
+
+        public ProductNotFoundException(final String message){
+            super(message);
+        }
+
+    }
 }

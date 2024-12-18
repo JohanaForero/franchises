@@ -18,4 +18,9 @@ public record ProductService(ProductValidator productValidator, DbPort dbPort, B
                     return branchPort.saveProduct(newProduct);
                 });
     }
+
+    public Mono<String> deleteProductByName(final String nameProduct) {
+        return dbPort.deleteProductByName(nameProduct)
+                .thenReturn("Producto eliminado satisfactoriamente");
+    }
 }

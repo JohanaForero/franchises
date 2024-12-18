@@ -6,6 +6,7 @@ import com.accenture.franchises.domain.model.Franchise;
 import com.accenture.franchises.infraestructure.mapper.FranchiseMapper;
 import com.accenture.franchises.infraestructure.repository.entity.FranchiseEntity;
 import com.accenture.franchises.infraestructure.repository.persintencerepository.PersistenceRepository;
+import com.accenture.franchises.infraestructure.repository.persintencerepository.ProductRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
@@ -15,6 +16,7 @@ import reactor.core.publisher.Mono;
 public class MongoDBFranchiseServiceImpl implements DbPort {
     private final FranchiseMapper franchiseMapper;
     private final PersistenceRepository persistenceRepository;
+    private final ProductRepository productRepository;
 
     @Override
     public Mono<Long> findMaxId() {
@@ -40,5 +42,16 @@ public class MongoDBFranchiseServiceImpl implements DbPort {
         return persistenceRepository.findById(franchiseId)
                 .switchIfEmpty(Mono.error(new RuntimeException("Franquicia no encontrada")))
                 .map(franchiseMapper::toDomain);
+    }
+
+    @Override
+    public Mono<Void> deleteProductByName(String nameProduct) {
+        return productRepository.deleteByName(nameProduct)
+                .flatMap(count -> {
+                    if (count == 0) {
+                        return Mono.error(new FranchiseException.ProductNotFoundException("FR-PD-003"));
+                    }
+                    return Mono.empty();
+                });
     }
 }

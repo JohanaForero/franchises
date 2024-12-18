@@ -14,4 +14,6 @@ public interface DbPort {
 
     Mono<Franchise> findByFranchiseId(Long idFranchise);
 
+    Mono<Void> deleteProductByName(String nameProduct);
+
 }
