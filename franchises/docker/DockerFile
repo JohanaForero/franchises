@@ -1,0 +1,9 @@
+FROM openjdk:21-jdk
+
+WORKDIR /app
+
+COPY target/franchises.jar /app/franchises.jar
+
+EXPOSE 8080
+
+ENTRYPOINT ["java", "-jar", "/app/franchises.jar"]
