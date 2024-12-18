@@ -8,4 +8,6 @@ import reactor.core.publisher.Mono;
 @Repository
 public interface ProductRepository extends ReactiveMongoRepository<ProductEntity, Long> {
     Mono<Long> deleteByName(String nameProduct);
+
+    Mono<ProductEntity> findByName(String nameProduct);
 }

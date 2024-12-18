@@ -20,4 +20,5 @@ public interface ProductMapper {
     ProductRequestDto toDto(Product product);
 
     ProductResponseDto toResponse(String message);
+
 }
