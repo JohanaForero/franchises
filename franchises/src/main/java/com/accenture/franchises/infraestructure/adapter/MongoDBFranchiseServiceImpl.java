@@ -3,7 +3,9 @@ package com.accenture.franchises.infraestructure.adapter;
 import com.accenture.franchises.application.port.DbPort;
 import com.accenture.franchises.domain.exception.FranchiseException;
 import com.accenture.franchises.domain.model.Franchise;
+import com.accenture.franchises.domain.model.Product;
 import com.accenture.franchises.infraestructure.mapper.FranchiseMapper;
+import com.accenture.franchises.infraestructure.mapper.ProductMapper;
 import com.accenture.franchises.infraestructure.repository.entity.FranchiseEntity;
 import com.accenture.franchises.infraestructure.repository.persintencerepository.PersistenceRepository;
 import com.accenture.franchises.infraestructure.repository.persintencerepository.ProductRepository;
@@ -17,6 +19,7 @@ public class MongoDBFranchiseServiceImpl implements DbPort {
     private final FranchiseMapper franchiseMapper;
     private final PersistenceRepository persistenceRepository;
     private final ProductRepository productRepository;
+    private final ProductMapper productMapper;
 
     @Override
     public Mono<Long> findMaxId() {
@@ -53,5 +56,12 @@ public class MongoDBFranchiseServiceImpl implements DbPort {
                     }
                     return Mono.empty();
                 });
+    }
+
+    @Override
+    public Mono<Product> findProductByName(String nameProduct) {
+        return this.productRepository.findByName(nameProduct)
+                .switchIfEmpty(Mono.error(new FranchiseException.ProductNotFoundException("MD-DB-005")))
+                .map(productMapper::toModel);
     }
 }

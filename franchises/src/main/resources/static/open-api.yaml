@@ -102,6 +102,53 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorObject'
   /franchises/{nameProduct}/product:
+    put:
+      tags:
+        - Franchises
+      summary: Update product quantity
+      description: Update the quantity of a product
+      operationId: updateProductQuantity
+      parameters:
+        - name: nameProduct
+          in: path
+          required: true
+          description: The name of the product to update
+          schema:
+            type: string
+            example: "colgate"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                total:
+                  type: integer
+                  description: The quantity of the product. Must be non-negative.
+                  example: 100
+                  minimum: 0
+              required:
+                - total
+      responses:
+        200:
+          description: The product quantity was successfully updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductRequest'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorObject'
+        404:
+          description: Product not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorObject'
     delete:
       tags:
         - Franchises

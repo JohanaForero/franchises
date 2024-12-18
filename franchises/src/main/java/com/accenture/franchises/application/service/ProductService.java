@@ -23,4 +23,16 @@ public record ProductService(ProductValidator productValidator, DbPort dbPort, B
         return dbPort.deleteProductByName(nameProduct)
                 .thenReturn("Producto eliminado satisfactoriamente");
     }
+
+    public Mono<Product> updateProductQuantity(String nameProduct, Integer total) {
+        return dbPort.findProductByName(nameProduct)
+                .switchIfEmpty(Mono.error(new FranchiseException.ProductNotFoundException("FR-PD-404")))
+                .flatMap(product -> {
+                    Product updatedProduct = product.toBuilder()
+                            .total(total)
+                            .build();
+                    return branchPort.saveProduct(updatedProduct);
+                });
+    }
+
 }
