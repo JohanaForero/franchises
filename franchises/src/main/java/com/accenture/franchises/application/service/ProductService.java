@@ -35,4 +35,8 @@ public record ProductService(ProductValidator productValidator, DbPort dbPort, B
                 });
     }
 
+    public Mono<Product> getProductWithMaxQuantity() {
+        return this.branchPort.findProductWithMaxQuantity();
+    }
+
 }

@@ -44,4 +44,13 @@ public class MongoDbBranchServiceImpl implements BranchPort {
                 .flatMap(saveEntity -> Mono.just(this.productMapper.toModel(saveEntity)))
                 .switchIfEmpty(Mono.error(new FranchiseException.ServerExceptionDB("FR-DB-001")));
     }
+
+    @Override
+    public Mono<Product> findProductWithMaxQuantity() {
+        return productRepository.findProductWithMaxTotal()
+                .next()
+                .switchIfEmpty(Mono.error(new FranchiseException.ProductNotFoundException("MD-DB-006")))
+                .map(productMapper::toModel);
+    }
+
 }

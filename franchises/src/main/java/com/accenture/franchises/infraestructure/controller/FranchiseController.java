@@ -13,6 +13,7 @@ import com.accenture.franchises.openapi.model.FranchiseRequestDto;
 import com.accenture.franchises.openapi.model.FranchiseResponseDto;
 import com.accenture.franchises.openapi.model.ProductRequestDto;
 import com.accenture.franchises.openapi.model.ProductResponseDto;
+import com.accenture.franchises.openapi.model.ProductResponseDtoDto;
 import com.accenture.franchises.openapi.model.UpdateProductQuantityRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -77,6 +78,13 @@ public class FranchiseController implements FranchisesApi {
                                     return ResponseEntity.ok(responseDto);
                                 })
                 );
+    }
+
+    @Override
+    public Mono<ResponseEntity<ProductResponseDtoDto>> getProductWithMaxQuantity(ServerWebExchange exchange) {
+        return this.productService.getProductWithMaxQuantity()
+                .map(productMapper::toResponseDto)
+                .map(ResponseEntity::ok);
     }
 }
 

@@ -176,6 +176,32 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorObject'
+  /franchises/product/max-quantity:
+    get:
+      tags:
+        - Products
+      summary: Get the product with the highest quantity
+      description: Returns the product with the highest quantity of products available.
+      operationId: getProductWithMaxQuantity
+      responses:
+        200:
+          description: Successfully fetched the product with the highest quantity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductResponseDto'
+        404:
+          description: No products found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorObject'
+        400:
+          description: Bad Request - If the resource is misspelled or badly constructed URI
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorObject'
 components:
   schemas:
     # Properties
@@ -235,6 +261,17 @@ components:
           $ref: '#/components/schemas/name'
         idFranchise:
           $ref: '#/components/schemas/id'
+    ProductResponseDto:
+      type: object
+      description: Represents a Product
+      properties:
+        name:
+          $ref: '#/components/schemas/name'
+        total:
+          type: integer
+          example: 150
+        branchName:
+          $ref: '#/components/schemas/name'
     BranchRequest:
       type: object
       description: Represents a branch associated with the franchise

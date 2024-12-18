@@ -12,4 +12,6 @@ public interface BranchPort {
     Mono<Branch> getBranch(String nameBranch);
 
     Mono<Product> saveProduct(Product product);
+
+    Mono<Product> findProductWithMaxQuantity();
 }
